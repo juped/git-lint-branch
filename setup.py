@@ -10,6 +10,6 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        git-lint-branch=git_lint_branch:app
+        git-lint-branch=git_lint_branch.main:app
     ''',
 )
