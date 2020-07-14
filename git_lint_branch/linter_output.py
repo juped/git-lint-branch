@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class LinterLevel(Enum):
     """
     Linter output severity levels. Rough definitions:
@@ -9,13 +10,15 @@ class LinterLevel(Enum):
     Failure: Should be considered a test failure.
              (For repository maintainer use only.)
     """
-    Empty   = 0
-    Notice  = 1
+
+    Empty = 0
+    Notice = 1
     Caution = 2
     Warning = 3
     Failure = 4
 
-class LinterOutput():
+
+class LinterOutput:
     @property
     def level(self):
         return self._level
@@ -23,7 +26,7 @@ class LinterOutput():
     @level.setter
     def level(self, value: LinterLevel):
         if not isinstance(value, LinterLevel):
-            raise TypeError('Severity level must be a valid LinterLevel')
+            raise TypeError("Severity level must be a valid LinterLevel")
         self._level = value
 
     @property
@@ -55,8 +58,10 @@ class LinterOutput():
 
     def pretty_print(self):
         if self._level is LinterLevel.Empty:
-            raise ValueError('Cannot pretty print an empty LinterOutput')
-        print('Severity: {level}'.format(level=self.level.name))
+            raise ValueError("Cannot pretty print an empty LinterOutput")
+        print("Severity: {level}".format(level=self.level.name))
         print(self.title)
-        print('Details:\n{message}'.format(message=self.message))
-        print('Suggestions:\n{help_string}'.format(help_string=self.help_string))
+        print("Details:\n{message}".format(message=self.message))
+        print(
+            "Suggestions:\n{help_string}".format(help_string=self.help_string)
+        )
