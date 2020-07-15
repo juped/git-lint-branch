@@ -1,7 +1,6 @@
-from enum import Enum
+from enum import IntEnum
 
-
-class LinterLevel(Enum):
+class LinterLevel(IntEnum):
     """
     Linter output severity levels. Rough definitions:
     Notice: Likely not a problem, but worth noting.
@@ -26,7 +25,7 @@ class LinterOutput:
     @level.setter
     def level(self, value: LinterLevel):
         if not isinstance(value, LinterLevel):
-            raise TypeError("Severity level must be a valid LinterLevel")
+            raise TypeError('Severity level must be a valid LinterLevel')
         self._level = value
 
     @property
@@ -58,10 +57,10 @@ class LinterOutput:
 
     def pretty_print(self):
         if self._level is LinterLevel.Empty:
-            raise ValueError("Cannot pretty print an empty LinterOutput")
-        print("Severity: {level}".format(level=self.level.name))
+            raise ValueError('Cannot pretty print an empty LinterOutput')
+        print('Severity: {level}'.format(level=self.level.name))
         print(self.title)
-        print("Details:\n{message}".format(message=self.message))
+        print('Details:\n{message}'.format(message=self.message))
         print(
-            "Suggestions:\n{help_string}".format(help_string=self.help_string)
+            'Suggestions:\n{help_string}'.format(help_string=self.help_string)
         )
