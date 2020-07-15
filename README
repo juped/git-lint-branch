@@ -1,0 +1,7 @@
+git-lint-branch testing branches
+
+These branches (prefixed with 'test-') are for testing git-lint-branch
+functionality.
+
+These are not real code branches and may be force-updated by the project
+maintainers at any time!

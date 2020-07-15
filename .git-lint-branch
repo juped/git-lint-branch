@@ -1,0 +1,4 @@
+[regex_linter]
+regex = ^[A-Z].*$
+title_length = 30
+body_line_length = 30
