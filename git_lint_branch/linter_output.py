@@ -1,6 +1,6 @@
-from enum import Enum
+from enum import IntEnum
 
-class LinterLevel(Enum):
+class LinterLevel(IntEnum):
     """
     Linter output severity levels. Rough definitions:
     Notice: Likely not a problem, but worth noting.
