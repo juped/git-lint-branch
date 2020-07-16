@@ -1,6 +1,9 @@
 import typer
+import os
+from pygit2 import discover_repository
 from pygit2 import Repository
 from pygit2 import GIT_SORT_TOPOLOGICAL
+import git_lint_branch.cfg as cfg
 from git_lint_branch.linter_output import *
 from git_lint_branch.single import single_linters
 
@@ -12,9 +15,13 @@ def main(upstream: str):
     Lints the commit history reachable from the current HEAD that is not
     on UPSTREAM (i.e., the current branch).
     """
-    repo = Repository('.git')
-    upstream = repo.revparse_single(upstream)
-    walker = repo.walk(repo.head.target, GIT_SORT_TOPOLOGICAL)
+    repo_path = discover_repository(os.getcwd())
+    if repo_path is None:
+        typer.echo('fatal: not a git repository (or any of the parent directories)', err=True)
+        raise typer.Exit(code=1)
+    cfg.repo = Repository(repo_path)
+    upstream = cfg.repo.revparse_single(upstream)
+    walker = cfg.repo.walk(cfg.repo.head.target, GIT_SORT_TOPOLOGICAL)
     walker.hide(upstream.id)
     for commit in walker:
         for linter in single_linters:
