@@ -23,4 +23,4 @@ def colorize(string, color, bold=False, highlight=False):
     attr.append(str(num))
     if bold:
         attr.append("1")
-    return "\x1b[%sm%s\x1b[0m" % (";".join(attr), string)
+    return '\x1b[%sm%s\x1b[0m' % (';'.join(attr), string)
