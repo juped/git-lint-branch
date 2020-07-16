@@ -1,3 +1,4 @@
+import os, subprocess, sys
 import spacy
 
 
@@ -11,5 +12,5 @@ except OSError:
         f' download it. If it fails please download it manually using the'
         f' command `python -m spacy download en_core_web_sm`'
     )
-    spacy.download('en_core_web_sm')
+    subprocess.run([sys.executable, '-m', 'spacy', 'download', 'en_core_web_sm'])
     NLP = spacy.load('en_core_web_sm')

@@ -8,6 +8,7 @@ setup(
         'typer',
         'pygit2',
         'spacy',
+        'colorama',
     ],
     entry_points='''
         [console_scripts]
