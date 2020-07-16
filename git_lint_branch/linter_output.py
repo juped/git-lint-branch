@@ -1,5 +1,5 @@
 from git_lint_branch.colors import colorize
-from enum import Enum
+from enum import IntEnum
 
 linterlevel2color = dict(
     Empty='white',
@@ -9,7 +9,7 @@ linterlevel2color = dict(
     Failure='red',
 )
 
-class LinterLevel(Enum):
+class LinterLevel(IntEnum):
     """
     Linter output severity levels. Rough definitions:
     Notice: Likely not a problem, but worth noting.
