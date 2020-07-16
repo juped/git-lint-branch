@@ -1,13 +1,5 @@
-from git_lint_branch.colors import colorize
 from enum import IntEnum
-
-linterlevel2color = dict(
-    Empty='white',
-    Notice='blue',
-    Caution='cyan',
-    Warning='yellow',
-    Failure='red',
-)
+import typer
 
 class LinterLevel(IntEnum):
     """
@@ -23,6 +15,14 @@ class LinterLevel(IntEnum):
     Caution = 2
     Warning = 3
     Failure = 4
+
+color_map = {
+    LinterLevel.Empty: typer.colors.WHITE,
+    LinterLevel.Notice: typer.colors.BLUE,
+    LinterLevel.Caution: typer.colors.GREEN,
+    LinterLevel.Warning: typer.colors.YELLOW,
+    LinterLevel.Failure: typer.colors.RED,
+}
 
 class LinterOutput():
     @property
@@ -62,16 +62,24 @@ class LinterOutput():
     def help_string(self, value: str):
         self._help_string = value
 
-    def pretty_print(self):
-        if self._level is LinterLevel.Empty:
+    def pretty_str(self, verbose: bool = True):
+        if self.level is LinterLevel.Empty:
             raise ValueError('Cannot pretty print an empty LinterOutput')
-        print(
-            colorize(
-                'Severity: {level}'.format(level=self.level.name),
-                color=linterlevel2color[self.level.name],
-                bold=True
-            )
-        )
-        print(self.title)
-        print('Details:\n{message}'.format(message=self.message))
-        print('Suggestions:\n{help_string}'.format(help_string=self.help_string))
+        
+        out = typer.style('\n+ ', fg=typer.colors.MAGENTA)
+        out += typer.style('FAULT: ', fg=typer.colors.BRIGHT_MAGENTA)
+        out += typer.style(self.title, fg=typer.colors.BRIGHT_MAGENTA, bold=True)
+        
+        out += typer.style('\n  SEVERITY: ', fg=typer.colors.BRIGHT_MAGENTA)
+        out += typer.style(self.level.name, fg=color_map[self.level], bold=True)
+
+        out += typer.style('\n  DETAILS:\n', fg=typer.colors.BRIGHT_MAGENTA)
+        out += typer.style(self.message, fg=typer.colors.WHITE)
+        
+        if verbose:
+
+            out += typer.style('\n  SUGGESTIONS:\n', fg=typer.colors.BRIGHT_MAGENTA)
+            out += typer.style(self.help_string, fg=typer.colors.WHITE)
+        
+        return out
+
