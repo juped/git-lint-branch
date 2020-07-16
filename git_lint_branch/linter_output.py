@@ -1,4 +1,13 @@
+from git_lint_branch.colors import colorize
 from enum import IntEnum
+
+linterlevel2color = dict(
+    Empty='white',
+    Notice='blue',
+    Caution='cyan',
+    Warning='yellow',
+    Failure='red',
+)
 
 class LinterLevel(IntEnum):
     """
@@ -56,7 +65,13 @@ class LinterOutput():
     def pretty_print(self):
         if self._level is LinterLevel.Empty:
             raise ValueError('Cannot pretty print an empty LinterOutput')
-        print('Severity: {level}'.format(level=self.level.name))
+        print(
+            colorize(
+                'Severity: {level}'.format(level=self.level.name),
+                color=linterlevel2color[self.level.name],
+                bold=True
+            )
+        )
         print(self.title)
         print('Details:\n{message}'.format(message=self.message))
         print('Suggestions:\n{help_string}'.format(help_string=self.help_string))
