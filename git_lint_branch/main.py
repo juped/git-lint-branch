@@ -1,3 +1,4 @@
+import configparser
 import typer
 import os
 from pygit2 import discover_repository
@@ -75,6 +76,12 @@ def main(upstream: str):
         typer.echo('fatal: not a git repository (or any of the parent directories)', err=True)
         raise typer.Exit(code=1)
     cfg.repo = Repository(repo_path)
+    config_file_path = os.path.join(repo_path, "..", ".git-lint-branch")
+    if os.path.isfile(config_file_path):
+        cfg.config = configparser.ConfigParser()
+        cfg.config.read(config_file_path, encoding="utf-8")
+    else:
+        cfg.config = None
     upstream = cfg.repo.revparse_single(upstream)
     walker = cfg.repo.walk(cfg.repo.head.target, GIT_SORT_TOPOLOGICAL)
     walker.hide(upstream.id)
