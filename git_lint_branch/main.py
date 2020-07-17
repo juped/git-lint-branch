@@ -87,13 +87,13 @@ def main(
         cfg.config = configparser.ConfigParser()
 
     try:
-        upstream = cfg.repo.revparse_single(upstream)
+        cfg.upstream = cfg.repo.revparse_single(upstream)
     except KeyError:
         typer.echo(f'fatal: UPSTREAM {upstream} not found or not reachable', err=True)
         raise typer.Exit(code=1)
 
     walker = cfg.repo.walk(cfg.repo.head.target, GIT_SORT_TOPOLOGICAL)
-    walker.hide(upstream.id)
+    walker.hide(cfg.upstream.id)
     walker = tosequence(walker)
 
     printer = Printer(verbose=verbose)
