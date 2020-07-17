@@ -8,11 +8,10 @@ def tense_linter(commit: Commit):
     result = LinterOutput()
     result.title = 'Tense Linter Output'
     past_tenses = []
-    for line in commit.message.splitlines():
-        doc = NLP(line)
-        for token in doc:
-            if token.tag_ in ['VBD', 'VBN']:
-                past_tenses.append(token)
+    doc = NLP(commit.message)
+    for sent in doc.sents:
+        if sent.root.tag_ in ['VBD', 'VBN']:
+            past_tenses.append(sent.root)
     if len(past_tenses) == 0:
         result.level = LinterLevel.Empty
         result.message = (
