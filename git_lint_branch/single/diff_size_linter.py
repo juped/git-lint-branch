@@ -28,7 +28,7 @@ def diff_size_linter(commit: Commit):
     Consider splitting these changes into multiple commits if they are
     unrelated.
     '''
-    
+
     if len(commit.parents) != 1:
         return result
         # reached a merge commit or the initial commit, don't check it
@@ -43,6 +43,3 @@ def diff_size_linter(commit: Commit):
     '''
 
     return result
-
-        
-     
