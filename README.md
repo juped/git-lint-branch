@@ -9,7 +9,7 @@
 # Features
 We provide *two* kinds of linters:
 - Single-Commit Linters
-- Multi-Commmit Linters
+- Multi-Commit Linters
 
 Yep, that's correct, those of the first kind only analyse one commit from the history at a time, while those of the second look at multiple commits at once.
 
@@ -25,6 +25,9 @@ Currently included are the following linters:
 ![imperative-form-linter](https://user-images.githubusercontent.com/43912285/87729070-1cec3580-c7e2-11ea-90b6-bf24d2d20b31.png)
 
 - **Diff Size:** Warns if a commit has a diff that is too large, which may be indicative of several logically unrelated changes being squashed into a single commit.
+- **Backwards Merge:** Warns if a commit is a backward merge, that is a merge from the upstream *integration* branch into the current topic-branch. The usual flow of commits is from topic to integration branches, hence this could be something to look into.
+
+![image](https://user-images.githubusercontent.com/43912285/87800767-6bdead00-c86c-11ea-9b0b-9a4682b9fab5.png)
 
 ## Multi-Commit Linters
 
@@ -36,7 +39,7 @@ Currently included are the following linters:
 
 ## In The Works
 
-We have several more linters in the oven, including ones that **detect backward merges**, **complain if source code is edited without the tests being accordingly modified** and **detect commits that should perhaps be squashed but aren't**.
+We have several more linters in the oven, including ones that **complain if source code is edited without the tests being accordingly modified** and **detect commits that should perhaps be squashed but aren't**.
 
 ## Your Project, To Your Liking
 
