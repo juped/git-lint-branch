@@ -29,7 +29,7 @@ class Printer:
         # self._single_data = typer.style('+++ ', fg=typer.colors.CYAN)
         # self._single_data += typer.style('Linting your commits:\n', fg=typer.colors.BRIGHT_CYAN, bold=True, underline=True)
         self._verbose = verbose
-        
+
         self._single_data = ''
         self._commit_str = ''
 
@@ -47,7 +47,7 @@ class Printer:
 
     def add_multiple_linter(self, linter: LinterOutput):
         self._multiple_data += linter.pretty_str(self._verbose)
-        
+
     def show(self):
         final_str = ''
         if len(self._single_data) > 0:
@@ -59,7 +59,7 @@ class Printer:
         if len(self._multiple_data) > 0:
             final_str += typer.style('\n+++ ', fg=typer.colors.GREEN)
             final_str += typer.style('Linting your commit history:\n', fg=typer.colors.BRIGHT_GREEN, bold=True, underline=True)
-            
+
             final_str += self._multiple_data
 
         typer.echo(final_str)
@@ -87,13 +87,13 @@ def main(
         cfg.config = configparser.ConfigParser()
 
     try:
-        upstream = cfg.repo.revparse_single(upstream)
+        cfg.upstream = cfg.repo.revparse_single(upstream)
     except KeyError:
         typer.echo(f'fatal: UPSTREAM {upstream} not found or not reachable', err=True)
         raise typer.Exit(code=1)
 
     walker = cfg.repo.walk(cfg.repo.head.target, GIT_SORT_TOPOLOGICAL)
-    walker.hide(upstream.id)
+    walker.hide(cfg.upstream.id)
     walker = tosequence(walker)
 
     printer = Printer(verbose=verbose)
@@ -111,5 +111,5 @@ def main(
         lint_result = linter(walker)
         if lint_result.level is not LinterLevel.Empty:
             printer.add_multiple_linter(lint_result)
-    
+
     printer.show()
