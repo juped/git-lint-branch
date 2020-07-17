@@ -1,3 +1,10 @@
+# common virtual environment names
 env
+venv
+
+# stuff python makes
 *.egg-info
 __pycache__
+
+# local editor configuration
+.vscode

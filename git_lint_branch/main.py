@@ -66,7 +66,10 @@ class Printer:
 
 
 @app.command()
-def main(upstream: str):
+def main(
+    upstream: str,
+    verbose: bool = typer.Option(True, help="Display suggestions on how to fix issues")
+    ):
     """
     Lints the commit history reachable from the current HEAD that is not
     on UPSTREAM (i.e., the current branch).
@@ -81,13 +84,19 @@ def main(upstream: str):
         cfg.config = configparser.ConfigParser()
         cfg.config.read(config_file_path, encoding="utf-8")
     else:
-        cfg.config = None
-    upstream = cfg.repo.revparse_single(upstream)
+        cfg.config = configparser.ConfigParser()
+
+    try:
+        upstream = cfg.repo.revparse_single(upstream)
+    except KeyError:
+        typer.echo(f'fatal: UPSTREAM {upstream} not found or not reachable', err=True)
+        raise typer.Exit(code=1)
+
     walker = cfg.repo.walk(cfg.repo.head.target, GIT_SORT_TOPOLOGICAL)
     walker.hide(upstream.id)
     walker = tosequence(walker)
 
-    printer = Printer()
+    printer = Printer(verbose=verbose)
 
     for commit in walker:
         printer.add_commit(commit)

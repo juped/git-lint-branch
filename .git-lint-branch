@@ -1,4 +1,3 @@
 [regex_linter]
-regex = ^(.+:\ )?[A-Z].+\.$
 title_length = 50
 body_line_length = 72

@@ -4,15 +4,14 @@ from git_lint_branch.linter_output import *
 
 
 def tense_linter(commit: Commit):
-    tab = "    "
+    tab = ' ' * 4
     result = LinterOutput()
     result.title = 'Tense Linter Output'
     past_tenses = []
-    for line in commit.message.splitlines():
-        doc = NLP(line)
-        for token in doc:
-            if token.tag_ in ['VBD', 'VBN']:
-                past_tenses.append(token)
+    doc = NLP(commit.message)
+    for sent in doc.sents:
+        if sent.root.tag_ in ['VBD', 'VBN']:
+            past_tenses.append(sent.root)
     if len(past_tenses) == 0:
         result.level = LinterLevel.Empty
         result.message = (
@@ -25,6 +24,8 @@ def tense_linter(commit: Commit):
     for i, token in enumerate(past_tenses):
         result.message += f'{tab * 2}{i + 1}. {token} ====> {token.lemma_}\n'
     result.help_string = (
-        f'\n{tab}Try using the suggested words to fix the commit message\n'
+        f'\n{tab}If this was the most recent commit, you can edit the message\n'
+          f'{tab}with `git commit --amend`. Otherwise, use the reword command in\n'
+          f'an interactive rebase.'
     )
     return result

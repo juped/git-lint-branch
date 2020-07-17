@@ -31,7 +31,7 @@ def repeat_linter(walker: Walker):
 def any_merges(walker: Walker):
     result = LinterOutput()
     result.level = LinterLevel.Empty
-
+    result.title = 'Merge Commits'
     merge_list = []
 
     for commit in walker:
