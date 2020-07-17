@@ -66,7 +66,10 @@ class Printer:
 
 
 @app.command()
-def main(upstream: str):
+def main(
+    upstream: str,
+    verbose: bool = typer.Option(True, help="Display suggestions on how to fix issues")
+    ):
     """
     Lints the commit history reachable from the current HEAD that is not
     on UPSTREAM (i.e., the current branch).
@@ -87,7 +90,7 @@ def main(upstream: str):
     walker.hide(upstream.id)
     walker = tosequence(walker)
 
-    printer = Printer()
+    printer = Printer(verbose=verbose)
 
     for commit in walker:
         printer.add_commit(commit)
