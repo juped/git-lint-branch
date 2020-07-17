@@ -65,21 +65,20 @@ class LinterOutput():
     def pretty_str(self, verbose: bool = True):
         if self.level is LinterLevel.Empty:
             raise ValueError('Cannot pretty print an empty LinterOutput')
-        
+
         out = typer.style('\n+ ', fg=typer.colors.MAGENTA)
         out += typer.style('FAULT: ', fg=typer.colors.BRIGHT_MAGENTA)
         out += typer.style(self.title, fg=typer.colors.BRIGHT_MAGENTA, bold=True)
-        
+
         out += typer.style('\n  SEVERITY: ', fg=typer.colors.BRIGHT_MAGENTA)
         out += typer.style(self.level.name, fg=color_map[self.level], bold=True)
 
         out += typer.style('\n  DETAILS:\n', fg=typer.colors.BRIGHT_MAGENTA)
         out += typer.style(self.message, fg=typer.colors.WHITE)
-        
+
         if verbose:
 
             out += typer.style('\n  SUGGESTIONS:\n', fg=typer.colors.BRIGHT_MAGENTA)
             out += typer.style(self.help_string, fg=typer.colors.WHITE)
-        
-        return out
 
+        return out

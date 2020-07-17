@@ -11,7 +11,7 @@ We provide *two* kinds of linters:
 - Single-Commit Linters
 - Multi-Commmit Linters
 
-Yep, that's correct, those of the first kind only analyse one commit from the history at a time, while those of the second look at multiple commits at once. 
+Yep, that's correct, those of the first kind only analyse one commit from the history at a time, while those of the second look at multiple commits at once.
 
 This provides flexibility in terms of what a linter can detect, while maintaining a uniform and streamlined way or reporting those findings to the user.
 
