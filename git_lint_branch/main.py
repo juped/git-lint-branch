@@ -82,7 +82,13 @@ def main(upstream: str):
         cfg.config.read(config_file_path, encoding="utf-8")
     else:
         cfg.config = None
-    upstream = cfg.repo.revparse_single(upstream)
+
+    try:
+        upstream = cfg.repo.revparse_single(upstream)
+    except KeyError:
+        typer.echo(f'fatal: UPSTREAM {upstream} not found or not reachable', err=True)
+        raise typer.Exit(code=1)
+
     walker = cfg.repo.walk(cfg.repo.head.target, GIT_SORT_TOPOLOGICAL)
     walker.hide(upstream.id)
     walker = tosequence(walker)
