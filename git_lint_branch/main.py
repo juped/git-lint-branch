@@ -81,7 +81,7 @@ def main(upstream: str):
         cfg.config = configparser.ConfigParser()
         cfg.config.read(config_file_path, encoding="utf-8")
     else:
-        cfg.config = None
+        cfg.config = configparser.ConfigParser()
 
     try:
         upstream = cfg.repo.revparse_single(upstream)
